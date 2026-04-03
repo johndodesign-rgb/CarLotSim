@@ -651,10 +651,247 @@ input[type=range].price-slider {
 }
 .btn-menu-f:hover { border-color: #888; }
 
+/* ── TUTORIAL ── */
+#s-tutorial {
+  background: var(--cream);
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+}
+.tut-shell {
+  max-width: 560px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.tut-step-indicator {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 28px;
+}
+.tut-pip {
+  height: 3px;
+  flex: 1;
+  background: var(--rule);
+  transition: background .3s;
+}
+.tut-pip.active { background: var(--accent); }
+.tut-pip.done { background: var(--ink); }
+.tut-step {
+  display: none;
+  flex-direction: column;
+  gap: 20px;
+  animation: fadeUp .25s ease;
+}
+.tut-step.active { display: flex; }
+@keyframes fadeUp { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+.tut-kicker {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: .2em;
+  color: var(--accent);
+  text-transform: uppercase;
+}
+.tut-heading {
+  font-family: 'DM Serif Display', serif;
+  font-size: 32px;
+  color: var(--ink);
+  line-height: 1.1;
+}
+.tut-body {
+  font-size: 15px;
+  color: var(--ink-mid);
+  line-height: 1.7;
+}
+.tut-callout {
+  border-left: 3px solid var(--amber);
+  padding: 12px 16px;
+  background: var(--paper);
+  font-size: 14px;
+  color: var(--ink-mid);
+  line-height: 1.6;
+}
+.tut-callout strong { color: var(--ink); font-weight: 600; }
+.tut-demo-car {
+  background: var(--ink);
+  padding: 16px;
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+.tut-demo-canvas { display: block; flex-shrink: 0; }
+.tut-demo-info { flex: 1; }
+.tut-demo-name {
+  font-family: 'DM Serif Display', serif;
+  font-size: 18px;
+  color: var(--cream);
+  margin-bottom: 4px;
+}
+.tut-demo-specs { display: flex; flex-direction: column; gap: 6px; margin-top: 8px; }
+.tut-demo-spec {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  border-bottom: 1px solid #2a2826;
+  padding-bottom: 4px;
+}
+.tut-demo-spec-lbl {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: .12em;
+  color: #666;
+  text-transform: uppercase;
+}
+.tut-demo-spec-val { font-size: 13px; color: var(--cream); font-weight: 500; }
+.tut-buyer-card {
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  padding: 16px;
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+.tut-buyer-avatar {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: var(--ink);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'DM Serif Display', serif;
+  font-size: 16px;
+  color: var(--cream);
+  flex-shrink: 0;
+}
+.tut-buyer-quote {
+  font-family: 'DM Serif Display', serif;
+  font-style: italic;
+  font-size: 14px;
+  color: var(--ink-mid);
+  margin-top: 4px;
+}
+.tut-slider-demo {
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  padding: 18px;
+}
+.tut-price-big {
+  font-family: 'DM Serif Display', serif;
+  font-size: 42px;
+  color: var(--ink);
+  margin-bottom: 10px;
+}
+.tut-range-labels {
+  display: flex;
+  justify-content: space-between;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--ink-dim);
+  margin-bottom: 4px;
+}
+input[type=range].tut-slider {
+  width: 100%;
+  accent-color: var(--accent);
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+.tut-slider-hint {
+  font-size: 12px;
+  color: var(--ink-dim);
+  text-align: center;
+}
+.tut-result-preview {
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.tut-result-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  padding: 5px 0;
+  border-bottom: 1px solid var(--rule);
+}
+.tut-result-row:last-child { border-bottom: none; font-weight: 500; }
+.tut-result-lbl { color: var(--ink-mid); }
+.tut-result-val { font-family: 'DM Mono', monospace; }
+.tut-result-val.pos { color: var(--green); }
+.tut-result-val.neg { color: var(--red); }
+.tut-buyer-types { display: flex; flex-direction: column; gap: 8px; }
+.tut-buyer-type {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  padding: 12px 14px;
+}
+.tut-type-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  margin-top: 5px;
+  flex-shrink: 0;
+}
+.tut-type-name { font-weight: 500; font-size: 14px; color: var(--ink); margin-bottom: 2px; }
+.tut-type-desc { font-size: 13px; color: var(--ink-mid); line-height: 1.5; }
+.tut-nav {
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 4px;
+}
+.tut-btn-back {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+  background: transparent;
+  border: 1px solid var(--rule);
+  padding: 11px 24px;
+  cursor: pointer;
+  transition: border-color .15s;
+}
+.tut-btn-back:hover { border-color: var(--ink-dim); }
+.tut-btn-next {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--cream);
+  background: var(--ink);
+  border: none;
+  padding: 12px 32px;
+  cursor: pointer;
+  transition: background .15s;
+  flex: 1;
+  text-align: center;
+}
+.tut-btn-next:hover { background: var(--accent); }
+.tut-skip {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  text-decoration: underline;
+  text-align: center;
+  margin-top: 4px;
+}
+.tut-skip:hover { color: var(--ink); }
+
 @media(max-width:640px){
   .game-body { grid-template-columns: 1fr; padding: 16px; gap: 16px; }
   .car-specs { grid-template-columns: 1fr 1fr; }
   .upg-grid { grid-template-columns: 1fr; }
+  .tut-demo-car { flex-direction: column; }
 }
 </style>
 </head>
@@ -670,6 +907,150 @@ input[type=range].price-slider {
   <div class="title-copy">Buyers walk in. You set the price. The market decides who was right. Run your lot through 100 years of automotive history.</div>
   <button class="btn-start" onclick="startGame()">Open the Gates</button>
   <div class="title-footer">A 100-Year Celebration</div>
+</div>
+
+<!-- TUTORIAL -->
+<div id="s-tutorial" class="screen">
+  <div class="tut-shell">
+    <div class="tut-step-indicator">
+      <div class="tut-pip active" id="tpip-0"></div>
+      <div class="tut-pip" id="tpip-1"></div>
+      <div class="tut-pip" id="tpip-2"></div>
+      <div class="tut-pip" id="tpip-3"></div>
+    </div>
+
+    <!-- Step 0: Welcome -->
+    <div class="tut-step active" id="tstep-0">
+      <div class="tut-kicker">Welcome to the lot</div>
+      <div class="tut-heading">You're the dealer.<br>They want the car.</div>
+      <div class="tut-body">Each round a buyer walks onto your lot. Your job is simple: <strong>set the right asking price</strong> for the car they're looking at.</div>
+      <div class="tut-callout">
+        <strong>The catch:</strong> you never see the true market value up front. You have to read the car's condition, mileage, and the buyer's signals — then make your call.
+      </div>
+      <div class="tut-body">Price too high and they walk. Price too low and you leave money on the table. The closer you get to true value, the better your score.</div>
+      <div class="tut-nav">
+        <button class="tut-btn-next" onclick="tutNext()">Show Me How →</button>
+      </div>
+      <button class="tut-skip" onclick="skipTutorial()">Skip tutorial — I know cars</button>
+    </div>
+
+    <!-- Step 1: Reading the car -->
+    <div class="tut-step" id="tstep-1">
+      <div class="tut-kicker">Step 1 of 3 — the car</div>
+      <div class="tut-heading">Read what's in front of you.</div>
+      <div class="tut-demo-car">
+        <canvas class="tut-demo-canvas" id="tut-car-canvas" width="140" height="110"></canvas>
+        <div class="tut-demo-info">
+          <div class="tut-demo-name">1924 Ford Model T</div>
+          <div style="font-family:'DM Mono',monospace;font-size:10px;color:#888;letter-spacing:.1em;margin-bottom:4px">ROADSTER · BLACK</div>
+          <div class="tut-demo-specs">
+            <div class="tut-demo-spec">
+              <span class="tut-demo-spec-lbl">Mileage</span>
+              <span class="tut-demo-spec-val">12,400 mi</span>
+            </div>
+            <div class="tut-demo-spec">
+              <span class="tut-demo-spec-lbl">Condition</span>
+              <span class="tut-demo-spec-val">Good — 78%</span>
+            </div>
+            <div class="tut-demo-spec">
+              <span class="tut-demo-spec-lbl">Notes</span>
+              <span class="tut-demo-spec-val" style="font-size:11px;color:#aaa">The car that built America. Reliable, simple.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="tut-callout">
+        <strong>Lower mileage = higher value.</strong> Better condition = higher value. A car with 78% condition should trade below a pristine example of the same model.
+      </div>
+      <div class="tut-nav">
+        <button class="tut-btn-back" onclick="tutBack()">Back</button>
+        <button class="tut-btn-next" onclick="tutNext()">Read the Buyer →</button>
+      </div>
+      <button class="tut-skip" onclick="skipTutorial()">Skip tutorial</button>
+    </div>
+
+    <!-- Step 2: Reading the buyer -->
+    <div class="tut-step" id="tstep-2">
+      <div class="tut-kicker">Step 2 of 3 — the buyer</div>
+      <div class="tut-heading">Every buyer tells you something.</div>
+      <div class="tut-buyer-card">
+        <div class="tut-buyer-avatar">HW</div>
+        <div>
+          <div style="font-weight:500;color:var(--ink)">Harold Whitmore</div>
+          <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--ink-dim);letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px">The Naive Buyer</div>
+          <div class="tut-buyer-quote">"I've been looking for something reliable to get to the mill and back."</div>
+        </div>
+      </div>
+      <div class="tut-buyer-types">
+        <div class="tut-buyer-type">
+          <div class="tut-type-dot" style="background:var(--green)"></div>
+          <div>
+            <div class="tut-type-name">Naive Buyer</div>
+            <div class="tut-type-desc">Flexible on price. Accepts a fair range above true value. Easy to sell to — but don't get lazy.</div>
+          </div>
+        </div>
+        <div class="tut-buyer-type">
+          <div class="tut-type-dot" style="background:var(--amber)"></div>
+          <div>
+            <div class="tut-type-name">The Haggler</div>
+            <div class="tut-type-desc">Always counters your first price. Open too high and they walk. These show up more in later eras.</div>
+          </div>
+        </div>
+        <div class="tut-buyer-type">
+          <div class="tut-type-dot" style="background:var(--red)"></div>
+          <div>
+            <div class="tut-type-name">The Researcher</div>
+            <div class="tut-type-desc">Knows the market within 5–6%. Tight tolerance. Rewards precision. Arrives in Era 2 and beyond.</div>
+          </div>
+        </div>
+      </div>
+      <div class="tut-nav">
+        <button class="tut-btn-back" onclick="tutBack()">Back</button>
+        <button class="tut-btn-next" onclick="tutNext()">Set a Price →</button>
+      </div>
+      <button class="tut-skip" onclick="skipTutorial()">Skip tutorial</button>
+    </div>
+
+    <!-- Step 3: The slider -->
+    <div class="tut-step" id="tstep-3">
+      <div class="tut-kicker">Step 3 of 3 — pricing</div>
+      <div class="tut-heading">Drag the slider.<br>Make the call.</div>
+      <div class="tut-slider-demo">
+        <div class="tut-price-big" id="tut-price-display">$500</div>
+        <div class="tut-range-labels"><span>$200</span><span>$1,400</span></div>
+        <input type="range" class="tut-slider" id="tut-price-slider"
+               min="200" max="1400" step="25" value="500"
+               oninput="onTutSlider(this.value)">
+        <div class="tut-slider-hint" id="tut-slider-hint">Try dragging the slider ↑</div>
+      </div>
+      <div class="tut-result-preview" id="tut-result-preview" style="display:none">
+        <div class="tut-result-row">
+          <span class="tut-result-lbl">Your price</span>
+          <span class="tut-result-val" id="tut-rv-asked">—</span>
+        </div>
+        <div class="tut-result-row">
+          <span class="tut-result-lbl">True market value</span>
+          <span class="tut-result-val" id="tut-rv-true">$625</span>
+        </div>
+        <div class="tut-result-row">
+          <span class="tut-result-lbl">How close</span>
+          <span class="tut-result-val" id="tut-rv-accuracy">—</span>
+        </div>
+        <div class="tut-result-row">
+          <span class="tut-result-lbl">Outcome</span>
+          <span class="tut-result-val" id="tut-rv-outcome">—</span>
+        </div>
+      </div>
+      <div class="tut-callout">
+        After each sale the true value is revealed. Your score is based on accuracy across all buyers in the era.
+      </div>
+      <div class="tut-nav">
+        <button class="tut-btn-back" onclick="tutBack()">Back</button>
+        <button class="tut-btn-next" onclick="skipTutorial()">Start Era 1 →</button>
+      </div>
+    </div>
+
+  </div>
 </div>
 
 <!-- GAME -->
@@ -938,14 +1319,114 @@ function initials(name){ return name.split(' ').map(w=>w[0]).join('').slice(0,2)
 // ════════════════════════════════════════════════
 //  FLOW
 // ════════════════════════════════════════════════
+// ════════════════════════════════════════════════
+//  TUTORIAL
+// ════════════════════════════════════════════════
+let tutStep = 0;
+const TUT_STEPS = 4;
+
 function startGame(){
+  // Reset state
   G.era=0; G.buyerIdx=0; G.profit=0; G.totalProfit=0;
   G.salesClosed=0; G.totalSales=0; G.accuracySum=0; G.accuracyCount=0;
   G.walkaways=0; G.financeUsed=false;
   G.upgrades={detail:0,reports:0,reputation:0,provenance:0,finance:0};
   G.finalAccuracies=[];
+  // Always show tutorial first
+  tutStep = 0;
+  renderTutStep();
+  showScreen('s-tutorial');
+  // Draw the demo car on step 1
+  setTimeout(drawTutCar, 100);
+}
+
+function renderTutStep(){
+  // Update pips
+  for(let i=0;i<TUT_STEPS;i++){
+    const pip = document.getElementById('tpip-'+i);
+    if(!pip) continue;
+    pip.classList.remove('active','done');
+    if(i < tutStep) pip.classList.add('done');
+    else if(i === tutStep) pip.classList.add('active');
+  }
+  // Show correct step
+  document.querySelectorAll('.tut-step').forEach(s=>s.classList.remove('active'));
+  const active = document.getElementById('tstep-'+tutStep);
+  if(active) active.classList.add('active');
+  // Draw canvas if on step 1
+  if(tutStep === 1) setTimeout(drawTutCar, 50);
+  // Init slider preview on step 3
+  if(tutStep === 3){
+    document.getElementById('tut-price-slider').value = 500;
+    document.getElementById('tut-price-display').textContent = '$500';
+    document.getElementById('tut-result-preview').style.display = 'none';
+    document.getElementById('tut-slider-hint').textContent = 'Try dragging the slider ↑';
+  }
+}
+
+function tutNext(){
+  tutStep = Math.min(TUT_STEPS - 1, tutStep + 1);
+  renderTutStep();
+}
+
+function tutBack(){
+  tutStep = Math.max(0, tutStep - 1);
+  renderTutStep();
+}
+
+function skipTutorial(){
   showEraTransition();
 }
+
+function drawTutCar(){
+  const cv = document.getElementById('tut-car-canvas');
+  if(!cv) return;
+  cv.width = 140; cv.height = 110;
+  const cx = cv.getContext('2d');
+  cx.fillStyle = '#111'; cx.fillRect(0,0,140,110);
+  // Simple Model T silhouette at small scale
+  const car = CARS[1][0];
+  drawBrassCarSilhouette(cx, 140, 110, car.color);
+}
+
+// Live preview on tutorial slider
+function onTutSlider(val){
+  const asked = parseInt(val);
+  const trueVal = 625; // Model T true value
+  document.getElementById('tut-price-display').textContent = fmtMoney(asked);
+
+  const pctOver = (asked - trueVal) / trueVal;
+  const accuracy = Math.round(Math.abs(pctOver) * 100);
+  const preview = document.getElementById('tut-result-preview');
+  preview.style.display = 'flex';
+
+  document.getElementById('tut-rv-asked').textContent = fmtMoney(asked);
+  document.getElementById('tut-rv-true').textContent = fmtMoney(trueVal);
+
+  const accEl = document.getElementById('tut-rv-accuracy');
+  accEl.textContent = accuracy + '% ' + (pctOver > 0 ? 'above' : 'below') + ' true value';
+  accEl.className = 'tut-result-val ' + (accuracy <= 10 ? 'pos' : accuracy <= 20 ? '' : 'neg');
+  accEl.style.color = accuracy <= 10 ? 'var(--green)' : accuracy <= 20 ? 'var(--amber)' : 'var(--red)';
+
+  const outEl = document.getElementById('tut-rv-outcome');
+  if(pctOver > 0.22){
+    outEl.textContent = 'Harold walks away';
+    outEl.className = 'tut-result-val neg';
+  } else if(asked / trueVal < 0.6){
+    outEl.textContent = 'He thinks something\'s wrong. Walks.';
+    outEl.className = 'tut-result-val neg';
+  } else {
+    const profit = asked - Math.round(trueVal * 0.72);
+    outEl.textContent = 'Sale closed · ' + fmtMoney(profit) + ' profit';
+    outEl.className = 'tut-result-val pos';
+  }
+
+  document.getElementById('tut-slider-hint').textContent =
+    accuracy <= 5 ? 'That\'s the sweet spot.' :
+    accuracy <= 15 ? 'Getting warmer.' : 'Try adjusting.';
+}
+
+
 
 function showEraTransition(){
   const era = ERAS[G.era];
