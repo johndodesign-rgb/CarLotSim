@@ -938,7 +938,8 @@ input[type=range].tut-slider {
       <div class="tut-kicker">Step 1 of 3 — the car</div>
       <div class="tut-heading">Read what's in front of you.</div>
       <div class="tut-demo-car">
-        <canvas class="tut-demo-canvas" id="tut-car-canvas" width="140" height="110"></canvas>
+        <img id="tut-car-img" src="./assets/cars/era1-model-T-pink.png" alt="1924 Ford Model T"
+             style="width:160px;height:126px;object-fit:contain;flex-shrink:0;filter:sepia(1) contrast(0.9) brightness(0.95)">
         <div class="tut-demo-info">
           <div class="tut-demo-name">1924 Ford Model T</div>
           <div style="font-family:'DM Mono',monospace;font-size:10px;color:#888;letter-spacing:.1em;margin-bottom:4px">ROADSTER · BLACK</div>
@@ -1215,8 +1216,8 @@ const CARS = {
 const BUYER_TYPES = {
   naive: {
     type: 'The Naive Buyer',
-    tolerance: 0.22,    // accepts up to 22% over true value
-    walkAwayBelow: 0.6, // walks if you're more than 40% under
+    tolerance: 0.14,    // accepts up to 14% over true value (was 22%)
+    walkAwayBelow: 0.72, // walks if more than 28% under (was 40%)
     counterChance: 0,
     names: ['Harold Whitmore','Edna Kowalski','Chester Briggs','Mabel Forsythe','Roy Dunbar','Agnes Pell','Walter Hume','Doris Crane'],
     quotes: [
@@ -1234,8 +1235,8 @@ const BUYER_TYPES = {
   },
   haggler: {
     type: 'The Haggler',
-    tolerance: 0.10,
-    walkAwayBelow: 0.75,
+    tolerance: 0.06,
+    walkAwayBelow: 0.82,
     counterChance: 0.85,
     counterRange: 0.12,
     names: ['Sal Mancini','Frank Delvecchio','Vera Stubbs','Lou Campagna','Irene Schaefer','Burt Novak'],
@@ -1254,8 +1255,8 @@ const BUYER_TYPES = {
   },
   researcher: {
     type: 'The Researcher',
-    tolerance: 0.06,
-    walkAwayBelow: 0.88,
+    tolerance: 0.03,
+    walkAwayBelow: 0.92,
     counterChance: 0.3,
     counterRange: 0.04,
     names: ['Dr. Philip Marsh','Margaret Hollingsworth','Professor Ames','Katherine Frost'],
@@ -1377,16 +1378,7 @@ function skipTutorial(){
   showEraTransition();
 }
 
-function drawTutCar(){
-  const cv = document.getElementById('tut-car-canvas');
-  if(!cv) return;
-  cv.width = 140; cv.height = 110;
-  const cx = cv.getContext('2d');
-  cx.fillStyle = '#111'; cx.fillRect(0,0,140,110);
-  // Simple Model T silhouette at small scale
-  const car = CARS[1][0];
-  drawBrassCarSilhouette(cx, 140, 110, car.color);
-}
+function drawTutCar(){ /* image loaded via src attribute, no canvas needed */ }
 
 // Live preview on tutorial slider
 function onTutSlider(val){
@@ -1517,15 +1509,26 @@ function loadBuyer(){
   const signals = shuffled(buyerDef.signals).slice(0,2);
   signalsEl.innerHTML = signals.map(s=>`<div class="signal"><div class="signal-dot"></div><span>${s}</span></div>`).join('');
 
-  // Slider
+  // Slider — start at minimum, force the player to make a real decision
   const slider = document.getElementById('price-slider');
   slider.min = car.sliderMin;
   slider.max = car.sliderMax;
-  const defaultPrice = Math.round(car.trueValue * (0.85 + Math.random()*0.3));
-  slider.value = snap(defaultPrice, parseInt(slider.step)||25, parseInt(slider.min), parseInt(slider.max));
+  slider.value = car.sliderMin;
   document.getElementById('range-min').textContent = fmtMoney(car.sliderMin);
   document.getElementById('range-max').textContent = fmtMoney(car.sliderMax);
-  onSlider(slider.value);
+  onSlider(car.sliderMin);
+
+  // Disable sell button until slider is moved
+  const sellBtn = document.querySelector('.btn-sell');
+  sellBtn.disabled = true;
+  sellBtn.style.opacity = '0.4';
+  sellBtn.style.cursor = 'not-allowed';
+  slider.addEventListener('input', function enableSell(){
+    sellBtn.disabled = false;
+    sellBtn.style.opacity = '1';
+    sellBtn.style.cursor = 'pointer';
+    slider.removeEventListener('input', enableSell);
+  }, { once: true });
 
   // Counter pips
   renderCounter(buyers.length);
@@ -1780,26 +1783,8 @@ function drawCarArt(car){
   }
 }
 
-// Tutorial demo image — just use the Model T
-function drawTutCar(){
-  const cv = document.getElementById('tut-car-canvas');
-  if(!cv) return;
-  cv.width = 140; cv.height = 110;
-  const cx = cv.getContext('2d');
-  cx.fillStyle='#111'; cx.fillRect(0,0,140,110);
-  // Draw placeholder silhouette for tutorial (no real image needed)
-  cx.fillStyle='#2a2420';
-  cx.fillRect(20,35,100,50);
-  cx.fillStyle='#1a1816';
-  cx.fillRect(35,15,70,40);
-  cx.fillStyle='rgba(100,140,160,0.25)';
-  cx.fillRect(40,18,60,30);
-  cx.fillStyle='#111';
-  cx.beginPath();cx.ellipse(38,82,16,11,0,0,Math.PI*2);cx.fill();
-  cx.beginPath();cx.ellipse(102,82,16,11,0,0,Math.PI*2);cx.fill();
-  cx.fillStyle='#8a6020';
-  cx.fillRect(25,80,90,4);
-}
+// Tutorial demo image handled via img src attribute
+function drawTutCar(){ /* no-op */ }
 
 preloadCarImages();
 </script>
