@@ -192,7 +192,6 @@ html, body {
   overflow: hidden;
   position: relative;
 }
-.car-art canvas { display: block; }
 
 .car-specs {
   display: grid;
@@ -1085,7 +1084,7 @@ input[type=range].tut-slider {
         <div class="car-year" id="car-year">Roadster · Black</div>
       </div>
       <div class="car-art">
-        <canvas id="car-canvas" width="320" height="240"></canvas>
+        <img id="car-img" src="" alt="" style="width:100%;height:100%;object-fit:contain;display:block;">
       </div>
       <div class="car-specs" id="car-specs"></div>
     </div>
@@ -1198,18 +1197,18 @@ const ERAS = [
 
 const CARS = {
   1: [
-    { name:'1924 Ford Model T', year:'Roadster · Black', mileage:'12,400', condition:78, condLabel:'Good', trueValue:625,  sliderMin:200,  sliderMax:1400,  color:'#1a1a1a', stripes:false, desc:'The car that built America. Reliable, simple, and everywhere.' },
-    { name:'1919 Dodge Brothers', year:'Touring · Navy', mileage:'8,200',  condition:85, condLabel:'Very Good', trueValue:810,  sliderMin:300,  sliderMax:1600,  color:'#1c2a3a', stripes:false, desc:'Stout and dependable. Popular with farmers and tradesmen.' },
-    { name:'1927 Chevrolet AA',  year:'Capitol · Green', mileage:'22,100', condition:62, condLabel:'Fair',      trueValue:490,  sliderMin:150,  sliderMax:1200,  color:'#1a2e1a', stripes:false, desc:'High mileage but well maintained. Priced to move.' },
-    { name:'1923 Buick Six',     year:'Touring · Black', mileage:'5,600',  condition:91, condLabel:'Excellent', trueValue:1050, sliderMin:400,  sliderMax:2000,  color:'#111',    stripes:false, desc:'A premium machine. Low miles, full touring body.' },
-    { name:'1926 Ford Model T',  year:'Coupe · Brown',   mileage:'31,400', condition:55, condLabel:'Fair',      trueValue:380,  sliderMin:100,  sliderMax:900,   color:'#3a2010', stripes:false, desc:'Hard life on the road. Needs work but runs.' },
+    { name:'1924 Ford Model T', year:'Roadster · Black', mileage:'12,400', condition:78, condLabel:'Good', trueValue:625,  sliderMin:200,  sliderMax:1400,  color:'#1a1a1a', stripes:false, img:'era1-model-T-pink.png',       desc:'The car that built America. Reliable, simple, and everywhere.' },
+    { name:'1919 Dodge Brothers', year:'Touring · Navy', mileage:'8,200',  condition:85, condLabel:'Very Good', trueValue:810,  sliderMin:300,  sliderMax:1600,  color:'#1c2a3a', stripes:false, img:'era1-brothers-touring.png',   desc:'Stout and dependable. Popular with farmers and tradesmen.' },
+    { name:'1927 Chevrolet AA',  year:'Capitol · Green', mileage:'22,100', condition:62, condLabel:'Fair',      trueValue:490,  sliderMin:150,  sliderMax:1200,  color:'#1a2e1a', stripes:false, img:'era1-chevrolet-aa-capitol.png', desc:'High mileage but well maintained. Priced to move.' },
+    { name:'1923 Buick Six',     year:'Touring · Black', mileage:'5,600',  condition:91, condLabel:'Excellent', trueValue:1050, sliderMin:400,  sliderMax:2000,  color:'#111',    stripes:false, img:'era1-buick-six-touring.png',   desc:'A premium machine. Low miles, full touring body.' },
+    { name:'1926 Ford Model T',  year:'Coupe · Brown',   mileage:'31,400', condition:55, condLabel:'Fair',      trueValue:380,  sliderMin:100,  sliderMax:900,   color:'#3a2010', stripes:false, img:'era1-model-T-coupe.png',       desc:'Hard life on the road. Needs work but runs.' },
   ],
   2: [
-    { name:'1955 Chevrolet Bel Air',   year:'2-Door · Coral/White', mileage:'28,400', condition:88, condLabel:'Excellent', trueValue:3200, sliderMin:1000, sliderMax:6000,  color:'#c84040', stripes:true,  desc:'America\'s sweetheart. Two-tone, chrome, and pure style.' },
-    { name:'1951 Hudson Hornet',       year:'Sedan · Green',        mileage:'41,200', condition:72, condLabel:'Good',      trueValue:2100, sliderMin:800,  sliderMax:4500,  color:'#2a4a2a', stripes:false, desc:'NASCAR legend on the street. Underrated and solid.' },
-    { name:'1957 Ford Thunderbird',    year:'Convertible · White',  mileage:'18,600', condition:94, condLabel:'Excellent', trueValue:5400, sliderMin:2000, sliderMax:9000,  color:'#f0f0e8', stripes:false, desc:'The personal luxury car. Low miles, immaculate condition.' },
-    { name:'1953 Studebaker Champion', year:'Hardtop · Blue',       mileage:'52,100', condition:65, condLabel:'Good',      trueValue:1650, sliderMin:600,  sliderMax:3500,  color:'#2a3a5a', stripes:false, desc:'Bold Raymond Loewy design. Gets overlooked, unfairly.' },
-    { name:'1958 Chevrolet Impala',    year:'Hardtop · Black',      mileage:'34,800', condition:80, condLabel:'Very Good', trueValue:2800, sliderMin:1000, sliderMax:5500,  color:'#111',    stripes:true,  desc:'Triple taillights and full chrome. All presence.' },
+    { name:'1955 Chevrolet Bel Air',   year:'2-Door · Coral/White', mileage:'28,400', condition:88, condLabel:'Excellent', trueValue:3200, sliderMin:1000, sliderMax:6000,  color:'#c84040', stripes:true,  img:'era2-chevrolet-belair.png',      desc:'America\'s sweetheart. Two-tone, chrome, and pure style.' },
+    { name:'1951 Hudson Hornet',       year:'Sedan · Green',        mileage:'41,200', condition:72, condLabel:'Good',      trueValue:2100, sliderMin:800,  sliderMax:4500,  color:'#2a4a2a', stripes:false, img:'era2-hudson-hornet.png',         desc:'NASCAR legend on the street. Underrated and solid.' },
+    { name:'1957 Ford Thunderbird',    year:'Convertible · White',  mileage:'18,600', condition:94, condLabel:'Excellent', trueValue:5400, sliderMin:2000, sliderMax:9000,  color:'#f0f0e8', stripes:false, img:'era2-ford-thunderbird.png',      desc:'The personal luxury car. Low miles, immaculate condition.' },
+    { name:'1953 Studebaker Champion', year:'Hardtop · Blue',       mileage:'52,100', condition:65, condLabel:'Good',      trueValue:1650, sliderMin:600,  sliderMax:3500,  color:'#2a3a5a', stripes:false, img:'era2-studebaker-champion.png',   desc:'Bold Raymond Loewy design. Gets overlooked, unfairly.' },
+    { name:'1958 Chevrolet Impala',    year:'Hardtop · Black',      mileage:'34,800', condition:80, condLabel:'Very Good', trueValue:2800, sliderMin:1000, sliderMax:5500,  color:'#111',    stripes:true,  img:'era2-chevrolet-impala.png',      desc:'Triple taillights and full chrome. All presence.' },
   ],
 };
 
@@ -1740,152 +1739,69 @@ function showFinal(){
 }
 
 // ════════════════════════════════════════════════
-//  CAR ART — drawn with canvas per era/car
+//  CAR ART — loads PNG from assets/cars/, applies sepia for Era 1
 // ════════════════════════════════════════════════
+const IMG_BASE = './assets/cars/';
+
+// Preload all car images at startup
+const carImageCache = {};
+function preloadCarImages(){
+  [1,2].forEach(eraId=>{
+    CARS[eraId].forEach(car=>{
+      if(car.img && !carImageCache[car.img]){
+        const img = new Image();
+        img.src = IMG_BASE + car.img;
+        carImageCache[car.img] = img;
+      }
+    });
+  });
+}
+
 function drawCarArt(car){
-  const cv = document.getElementById('car-canvas');
-  cv.width = cv.parentElement.offsetWidth || 320;
-  cv.height = Math.round(cv.width * 0.62);
-  const cx = cv.getContext('2d');
-  const W = cv.width, H = cv.height;
+  const el = document.getElementById('car-img');
+  if(!el) return;
 
-  cx.fillStyle = '#111';
-  cx.fillRect(0,0,W,H);
-
-  // Ground reflection
-  cx.fillStyle = '#1a1816';
-  cx.fillRect(0, H*0.72, W, H*0.28);
-
-  // Draw an era-appropriate silhouette based on era
   const eraId = ERAS[G.era].id;
-  if(eraId === 1) drawBrassCarSilhouette(cx, W, H, car.color);
-  else if(eraId === 2) drawChromeDreamSilhouette(cx, W, H, car.color, car.stripes);
+  const isSepia = eraId === 1;
 
-  // Headlight glow
-  cx.fillStyle = 'rgba(255,240,180,0.08)';
-  cx.beginPath();
-  cx.ellipse(W*0.18, H*0.72, W*0.12, H*0.12, 0, 0, Math.PI*2);
-  cx.fill();
-  cx.beginPath();
-  cx.ellipse(W*0.82, H*0.72, W*0.12, H*0.12, 0, 0, Math.PI*2);
-  cx.fill();
-}
-
-function drawBrassCarSilhouette(cx, W, H, color){
-  // Era 1: boxy upright Model T style, viewed from rear 3/4
-  const bx=W*0.15, by=H*0.3, bw=W*0.7, bh=H*0.42;
-
-  // Body
-  cx.fillStyle=color;
-  cx.fillRect(bx, by, bw, bh);
-
-  // Cabin (smaller, high)
-  cx.fillStyle='#222';
-  cx.fillRect(bx+bw*0.2, by-H*0.28, bw*0.6, H*0.3);
-
-  // Rear window
-  cx.fillStyle='rgba(100,160,200,0.3)';
-  cx.fillRect(bx+bw*0.25, by-H*0.25, bw*0.5, H*0.22);
-
-  // Fenders (round)
-  cx.fillStyle='#333';
-  cx.beginPath();cx.ellipse(bx+bw*0.22,by+bh*0.85,bw*0.16,H*0.12,0,0,Math.PI*2);cx.fill();
-  cx.beginPath();cx.ellipse(bx+bw*0.78,by+bh*0.85,bw*0.16,H*0.12,0,0,Math.PI*2);cx.fill();
-
-  // Tires
-  cx.fillStyle='#111';
-  cx.beginPath();cx.ellipse(bx+bw*0.22,by+bh*0.85,bw*0.12,H*0.09,0,0,Math.PI*2);cx.fill();
-  cx.beginPath();cx.ellipse(bx+bw*0.78,by+bh*0.85,bw*0.12,H*0.09,0,0,Math.PI*2);cx.fill();
-
-  // Brass details
-  cx.fillStyle='#c8a040';
-  cx.fillRect(bx+bw*0.1,by+bh*0.9,bw*0.8,H*0.025); // bumper
-
-  // Taillights (oil lamp style)
-  cx.fillStyle='#8a4020';
-  cx.beginPath();cx.arc(bx+bw*0.15,by+bh*0.5,W*0.025,0,Math.PI*2);cx.fill();
-  cx.beginPath();cx.arc(bx+bw*0.85,by+bh*0.5,W*0.025,0,Math.PI*2);cx.fill();
-}
-
-function drawChromeDreamSilhouette(cx, W, H, color, stripes){
-  // Era 2: wide, low, tailfins — viewed from rear
-  const bx=W*0.08, by=H*0.32, bw=W*0.84, bh=H*0.38;
-
-  // Tailfins
-  cx.fillStyle=color;
-  // Left fin
-  cx.beginPath();
-  cx.moveTo(bx, by+bh*0.1);
-  cx.lineTo(bx-W*0.04, by-H*0.18);
-  cx.lineTo(bx+bw*0.12, by);
-  cx.closePath(); cx.fill();
-  // Right fin
-  cx.beginPath();
-  cx.moveTo(bx+bw, by+bh*0.1);
-  cx.lineTo(bx+bw+W*0.04, by-H*0.18);
-  cx.lineTo(bx+bw*0.88, by);
-  cx.closePath(); cx.fill();
-
-  // Body
-  cx.fillStyle=color;
-  cx.fillRect(bx, by, bw, bh);
-
-  // Two-tone roof area (white/cream if stripes)
-  cx.fillStyle= stripes ? '#f0ede0' : '#222';
-  cx.fillRect(bx+bw*0.12, by-H*0.22, bw*0.76, H*0.24);
-
-  // Rear window (wide panoramic)
-  cx.fillStyle='rgba(80,120,160,0.4)';
-  cx.fillRect(bx+bw*0.16, by-H*0.19, bw*0.68, H*0.18);
-
-  // Chrome stripe across middle
-  cx.fillStyle='#c8c8c8';
-  cx.fillRect(bx, by+bh*0.42, bw, H*0.022);
-
-  // Racing stripes if applicable
-  if(stripes){
-    cx.fillStyle='rgba(255,255,255,0.12)';
-    cx.fillRect(bx+bw*0.42, by-H*0.22, bw*0.08, H*0.22+bh);
-    cx.fillRect(bx+bw*0.50, by-H*0.22, bw*0.08, H*0.22+bh);
+  if(car.img && carImageCache[car.img]){
+    el.src = carImageCache[car.img].src;
+    el.alt = car.name;
+    // Sepia filter for Era 1, full color for Era 2+
+    el.style.filter = isSepia
+      ? 'sepia(1) contrast(0.9) brightness(0.95)'
+      : 'none';
+  } else {
+    // Fallback — plain colored block if image missing
+    el.src = '';
+    el.alt = '';
+    el.style.filter = 'none';
+    el.parentElement.style.background = car.color || '#111';
   }
-
-  // Wide taillights (era 2 signature)
-  cx.fillStyle='#e8221a';
-  cx.fillRect(bx+bw*0.06, by+bh*0.55, bw*0.2, H*0.07);
-  cx.fillRect(bx+bw*0.74, by+bh*0.55, bw*0.2, H*0.07);
-  // Amber outer
-  cx.fillStyle='#e8a020';
-  cx.fillRect(bx+bw*0.06, by+bh*0.55, bw*0.05, H*0.07);
-  cx.fillRect(bx+bw*0.89, by+bh*0.55, bw*0.05, H*0.07);
-
-  // Chrome bumper
-  cx.fillStyle='#d8d8d8';
-  cx.fillRect(bx+bw*0.05, by+bh*0.88, bw*0.9, H*0.03);
-
-  // License plate area
-  cx.fillStyle='#aaa';
-  cx.fillRect(bx+bw*0.4, by+bh*0.68, bw*0.2, H*0.08);
-  cx.fillStyle='#1a3a6a';
-  cx.fillRect(bx+bw*0.41, by+bh*0.69, bw*0.18, H*0.06);
-
-  // Wheels
-  cx.fillStyle='#111';
-  cx.beginPath();cx.ellipse(bx+bw*0.18,by+bh*1.0,bw*0.13,H*0.095,0,0,Math.PI*2);cx.fill();
-  cx.beginPath();cx.ellipse(bx+bw*0.82,by+bh*1.0,bw*0.13,H*0.095,0,0,Math.PI*2);cx.fill();
-  // Hubcaps
-  cx.fillStyle='#c8c8c8';
-  cx.beginPath();cx.arc(bx+bw*0.18,by+bh*1.0,bw*0.06,0,Math.PI*2);cx.fill();
-  cx.beginPath();cx.arc(bx+bw*0.82,by+bh*1.0,bw*0.06,0,Math.PI*2);cx.fill();
 }
 
-// Kick off canvas sizing on load
-window.addEventListener('load', ()=>{
-  const cv = document.getElementById('car-canvas');
-  if(cv && cv.parentElement){
-    cv.width = cv.parentElement.offsetWidth || 320;
-    cv.height = Math.round(cv.width * 0.62);
-  }
-});
+// Tutorial demo image — just use the Model T
+function drawTutCar(){
+  const cv = document.getElementById('tut-car-canvas');
+  if(!cv) return;
+  cv.width = 140; cv.height = 110;
+  const cx = cv.getContext('2d');
+  cx.fillStyle='#111'; cx.fillRect(0,0,140,110);
+  // Draw placeholder silhouette for tutorial (no real image needed)
+  cx.fillStyle='#2a2420';
+  cx.fillRect(20,35,100,50);
+  cx.fillStyle='#1a1816';
+  cx.fillRect(35,15,70,40);
+  cx.fillStyle='rgba(100,140,160,0.25)';
+  cx.fillRect(40,18,60,30);
+  cx.fillStyle='#111';
+  cx.beginPath();cx.ellipse(38,82,16,11,0,0,Math.PI*2);cx.fill();
+  cx.beginPath();cx.ellipse(102,82,16,11,0,0,Math.PI*2);cx.fill();
+  cx.fillStyle='#8a6020';
+  cx.fillRect(25,80,90,4);
+}
+
+preloadCarImages();
 </script>
 </body>
 </html>
