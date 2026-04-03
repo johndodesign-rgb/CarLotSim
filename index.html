@@ -1845,18 +1845,16 @@ function drawCarArt(car){
   const eraId = ERAS[G.era].id;
   const isSepia = eraId === 1;
 
-  if(car.img && carImageCache[car.img]){
-    el.src = carImageCache[car.img].src;
+  if(car.img){
+    el.src = IMG_BASE + car.img;
     el.alt = car.name;
-    // Sepia filter for Era 1, full color for Era 2+
     el.style.filter = isSepia
       ? 'sepia(1) contrast(0.9) brightness(0.95)'
       : 'none';
+    el.style.display = 'block';
   } else {
-    // Fallback — plain colored block if image missing
     el.src = '';
-    el.alt = '';
-    el.style.filter = 'none';
+    el.style.display = 'none';
     el.parentElement.style.background = car.color || '#111';
   }
 }
