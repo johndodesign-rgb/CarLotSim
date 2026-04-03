@@ -892,6 +892,45 @@ input[type=range].tut-slider {
   .upg-grid { grid-template-columns: 1fr; }
   .tut-demo-car { flex-direction: column; }
 }
+
+/* ── ARCADE NAME ENTRY ── */
+#s-initials{background:var(--ink);color:var(--cream);align-items:center;justify-content:center;flex-direction:column;gap:0;padding:40px 20px}
+.ini-kicker{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.28em;color:var(--amber);text-transform:uppercase;margin-bottom:12px}
+.ini-score{font-family:'DM Serif Display',serif;font-size:clamp(52px,10vw,96px);color:var(--cream);line-height:.9;margin-bottom:8px}
+.ini-score-lbl{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.18em;color:#555;text-transform:uppercase;margin-bottom:36px}
+.ini-prompt{font-family:'DM Mono',monospace;font-size:13px;letter-spacing:.18em;color:#666;text-transform:uppercase;margin-bottom:20px}
+.ini-letters{display:flex;gap:16px;margin-bottom:28px}
+.ini-letter{width:64px;height:80px;border:2px solid #333;display:flex;align-items:center;justify-content:center;font-family:'DM Serif Display',serif;font-size:52px;color:var(--cream);transition:border-color .15s;position:relative}
+.ini-letter.active{border-color:var(--amber)}
+.ini-letter.active::after{content:'';position:absolute;bottom:8px;left:50%;transform:translateX(-50%);width:24px;height:2px;background:var(--amber);animation:blink .7s step-end infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+.ini-hint{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.14em;color:#444;text-align:center;line-height:2;margin-bottom:28px}
+.btn-submit-score{font-family:'DM Mono',monospace;font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink);background:var(--amber);border:none;padding:14px 48px;cursor:pointer;transition:background .15s}
+.btn-submit-score:hover{background:#d49020}
+.btn-submit-score:disabled{opacity:.4;cursor:default}
+
+/* ── LEADERBOARD ── */
+#s-leaderboard{background:var(--ink);color:var(--cream);align-items:center;justify-content:center;flex-direction:column;padding:32px 20px;gap:0;overflow-y:auto}
+.lb-kicker{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.28em;color:var(--amber);text-transform:uppercase;margin-bottom:8px}
+.lb-title{font-family:'DM Serif Display',serif;font-size:clamp(36px,7vw,72px);color:var(--cream);margin-bottom:28px}
+.lb-table{max-width:480px;width:100%;margin-bottom:28px}
+.lb-row{display:flex;align-items:center;gap:16px;padding:10px 0;border-bottom:1px solid #1e1c18;font-family:'DM Mono',monospace}
+.lb-row:last-child{border-bottom:none}
+.lb-rank{font-size:12px;color:#555;width:24px;text-align:right;flex-shrink:0}
+.lb-rank.gold{color:#f5c842;font-size:14px}
+.lb-rank.silver{color:#c8c8c8;font-size:14px}
+.lb-rank.bronze{color:#c87840;font-size:14px}
+.lb-name{font-family:'DM Serif Display',serif;font-size:24px;color:var(--cream);letter-spacing:.08em;flex:1}
+.lb-name.you{color:var(--amber)}
+.lb-score{font-size:13px;color:#888;text-align:right}
+.lb-score-val{font-size:16px;color:var(--cream);display:block}
+.lb-loading{font-family:'DM Mono',monospace;font-size:12px;color:#555;letter-spacing:.14em;text-align:center;padding:32px 0}
+.lb-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.lb-your-score{font-family:'DM Mono',monospace;font-size:12px;color:var(--amber);letter-spacing:.12em;margin-bottom:20px;text-align:center}
+.btn-lb-play{font-family:'DM Mono',monospace;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink);background:var(--amber);border:none;padding:13px 44px;cursor:pointer;transition:background .15s}
+.btn-lb-play:hover{background:#d49020}
+.btn-lb-menu{font-family:'DM Mono',monospace;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--cream);background:transparent;border:1px solid #2a2826;padding:13px 28px;cursor:pointer;transition:border-color .15s}
+.btn-lb-menu:hover{border-color:#666}
 </style>
 </head>
 <body>
@@ -905,6 +944,9 @@ input[type=range].tut-slider {
   <div class="title-rule"></div>
   <div class="title-copy">Buyers walk in. You set the price. The market decides who was right. Run your lot through 100 years of automotive history.</div>
   <button class="btn-start" onclick="startGame()">Open the Gates</button>
+  <div style="margin-top:16px">
+    <button onclick="showScreen('s-leaderboard');loadLeaderboard()" style="font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#555;background:transparent;border:none;cursor:pointer;padding:8px">View Leaderboard</button>
+  </div>
   <div class="title-footer">A 100-Year Celebration</div>
 </div>
 
@@ -1163,8 +1205,40 @@ input[type=range].tut-slider {
   <div class="final-profit" id="final-profit">$0 profit</div>
   <div class="final-stats" id="final-stats"></div>
   <div class="final-actions">
-    <button class="btn-play-again" onclick="startGame()">Run It Again</button>
-    <button class="btn-menu-f" onclick="showScreen('s-title')">Main Menu</button>
+    <button class="btn-play-again" onclick="goToInitials()">Enter Score</button>
+    <button class="btn-menu-f" onclick="showScreen('s-leaderboard');loadLeaderboard()">Leaderboard</button>
+  </div>
+</div>
+
+<!-- INITIALS ENTRY -->
+<div id="s-initials" class="screen">
+  <div class="ini-kicker">New High Score</div>
+  <div class="ini-score" id="ini-score-val">0</div>
+  <div class="ini-score-lbl">Your Score</div>
+  <div class="ini-prompt">Enter your initials</div>
+  <div class="ini-letters">
+    <div class="ini-letter active" id="ini-0">_</div>
+    <div class="ini-letter" id="ini-1">_</div>
+    <div class="ini-letter" id="ini-2">_</div>
+  </div>
+  <div class="ini-hint">
+    A – Z to type &nbsp;·&nbsp; Backspace to delete<br>
+    Enter or tap Submit to confirm
+  </div>
+  <button class="btn-submit-score" id="btn-submit" onclick="submitScore()" disabled>Submit</button>
+</div>
+
+<!-- LEADERBOARD -->
+<div id="s-leaderboard" class="screen">
+  <div class="lb-kicker">Century Drive · The Lot</div>
+  <div class="lb-title">High Scores</div>
+  <div class="lb-your-score" id="lb-your-score"></div>
+  <div class="lb-table" id="lb-table">
+    <div class="lb-loading">Loading scores...</div>
+  </div>
+  <div class="lb-actions">
+    <button class="btn-lb-play" onclick="startGame()">Play Again</button>
+    <button class="btn-lb-menu" onclick="showScreen('s-title')">Main Menu</button>
   </div>
 </div>
 
@@ -1730,13 +1804,17 @@ function continueToNextEra(){
 // ════════════════════════════════════════════════
 function showFinal(){
   const avgAcc = G.accuracyCount ? Math.round(G.accuracySum/G.accuracyCount) : 0;
+  // Score formula: profit × accuracy multiplier (2 = perfect, 1 = 100% off)
+  const accMult = Math.max(0.1, 2 - (avgAcc / 100));
+  G.finalScore  = Math.max(0, Math.round(G.totalProfit * accMult));
+
   const headline = avgAcc<=8 ? 'Sharp as<br>a Tack.' : avgAcc<=18 ? 'Not Bad,<br>Partner.' : 'Room to<br>Grow.';
   document.getElementById('final-title').innerHTML = headline;
   document.getElementById('final-profit').textContent = fmtMoney(G.totalProfit)+' total profit';
   document.getElementById('final-stats').innerHTML = `
     <div class="fstat"><div class="fstat-lbl">Sales closed</div><div class="fstat-val">${G.salesClosed} / ${G.totalSales}</div></div>
     <div class="fstat"><div class="fstat-lbl">Avg. accuracy</div><div class="fstat-val">±${avgAcc}%</div></div>
-    <div class="fstat"><div class="fstat-lbl">Walkaways</div><div class="fstat-val">${G.walkaways}</div></div>
+    <div class="fstat"><div class="fstat-lbl">Score</div><div class="fstat-val">${G.finalScore.toLocaleString()}</div></div>
   `;
   showScreen('s-final');
 }
@@ -1786,7 +1864,155 @@ function drawCarArt(car){
 // Tutorial demo image handled via img src attribute
 function drawTutCar(){ /* no-op */ }
 
-preloadCarImages();
+// ════════════════════════════════════════════════
+//  SCORE + INITIALS + LEADERBOARD
+// ════════════════════════════════════════════════
+
+// ── IMPORTANT: Replace this URL after deploying your Apps Script ──
+// See setup instructions below the game code.
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyz9aSKEk0f3QNFIsFUXlJuIqcU8WYOVr9Er-AYk0rwcoIVnDnVjwt17Hm30-nmCUQuIw/exec';
+
+// Score stored in G.finalScore (set in showFinal)
+if(!G.finalScore) G.finalScore = 0;
+
+// Initials state
+let iniLetters  = ['_','_','_'];
+let iniCursor   = 0;
+
+function goToInitials(){
+  iniLetters = ['_','_','_'];
+  iniCursor  = 0;
+  document.getElementById('ini-score-val').textContent = G.finalScore.toLocaleString();
+  renderInitials();
+  document.getElementById('btn-submit').disabled = true;
+  showScreen('s-initials');
+}
+
+function renderInitials(){
+  for(let i=0;i<3;i++){
+    const el = document.getElementById('ini-'+i);
+    el.textContent = iniLetters[i];
+    el.classList.toggle('active', i===iniCursor);
+  }
+  const filled = iniLetters.every(l=>l!=='_');
+  document.getElementById('btn-submit').disabled = !filled;
+}
+
+// Keyboard input for initials
+window.addEventListener('keydown', e=>{
+  const screen = document.querySelector('.screen.active');
+  if(!screen || screen.id !== 's-initials') return;
+
+  if(e.key.length===1 && e.key.match(/[a-zA-Z]/)){
+    if(iniCursor < 3){
+      iniLetters[iniCursor] = e.key.toUpperCase();
+      iniCursor = Math.min(2, iniCursor+1);
+      renderInitials();
+    }
+  } else if(e.key==='Backspace'){
+    if(iniLetters[iniCursor]==='_' && iniCursor>0) iniCursor--;
+    iniLetters[iniCursor]='_';
+    renderInitials();
+  } else if(e.key==='Enter'){
+    if(iniLetters.every(l=>l!=='_')) submitScore();
+  }
+  e.preventDefault();
+});
+
+// Tap on letter cells to set cursor
+for(let i=0;i<3;i++){
+  document.getElementById('ini-'+i)?.addEventListener('click',()=>{
+    iniCursor=i; renderInitials();
+  });
+}
+
+async function submitScore(){
+  const name  = iniLetters.join('');
+  const score = G.finalScore;
+  const avgAcc= G.accuracyCount ? Math.round(G.accuracySum/G.accuracyCount) : 0;
+
+  // Disable button to prevent double-submit
+  const btn = document.getElementById('btn-submit');
+  btn.disabled = true;
+  btn.textContent = 'Submitting...';
+
+  try {
+    await fetch(SCRIPT_URL, {
+      method: 'POST',
+      mode:   'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name, score,
+        profit:  G.totalProfit,
+        accuracy: avgAcc,
+        sales:   G.salesClosed,
+        date:    new Date().toISOString()
+      })
+    });
+  } catch(e) {
+    // no-cors means we can't read response, but POST still lands
+  }
+
+  // Go to leaderboard
+  showScreen('s-leaderboard');
+  loadLeaderboard(name, score);
+}
+
+async function loadLeaderboard(yourName, yourScore){
+  const table = document.getElementById('lb-table');
+  const yourEl= document.getElementById('lb-your-score');
+  table.innerHTML = '<div class="lb-loading">Loading scores...</div>';
+  yourEl.textContent = '';
+
+  if(yourName && yourScore){
+    yourEl.textContent = `${yourName} · ${yourScore.toLocaleString()} pts`;
+  }
+
+  try {
+    const res    = await fetch(SCRIPT_URL + '?action=get');
+    const scores = await res.json();
+    renderLeaderboard(scores, yourName);
+  } catch(e) {
+    // Script not set up yet — show placeholder
+    renderLeaderboard([
+      {name:'AAA', score:24800},
+      {name:'KBB', score:19200},
+      {name:'LOT', score:15400},
+    ], yourName);
+  }
+}
+
+function renderLeaderboard(scores, yourName){
+  const table = document.getElementById('lb-table');
+  if(!scores || !scores.length){
+    table.innerHTML = '<div class="lb-loading">No scores yet. Be the first!</div>';
+    return;
+  }
+
+  // Sort descending
+  scores.sort((a,b) => b.score - a.score);
+  const top = scores.slice(0, 10);
+
+  const rankLabels = ['★','✦','◆'];
+  const rankClass  = ['gold','silver','bronze'];
+
+  table.innerHTML = top.map((s,i)=>{
+    const rank = i < 3
+      ? `<span class="lb-rank ${rankClass[i]}">${rankLabels[i]}</span>`
+      : `<span class="lb-rank">${i+1}</span>`;
+    const isYou = s.name === yourName;
+    return `
+      <div class="lb-row">
+        ${rank}
+        <div class="lb-name${isYou?' you':''}">${s.name}${isYou?' ◀':''}</div>
+        <div class="lb-score">
+          <span class="lb-score-val">${Number(s.score).toLocaleString()}</span>
+          pts
+        </div>
+      </div>
+    `;
+  }).join('');
+}
 </script>
 </body>
 </html>
