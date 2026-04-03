@@ -1183,7 +1183,7 @@ input[type=range].tut-slider {
   <div class="upg-grid" id="upg-grid"></div>
   <div class="upg-actions">
     <button class="btn-skip" onclick="skipUpgrade()">Skip</button>
-    <button class="btn-continue" onclick="continueToNextEra()">Enter Era 2 →</button>
+    <button class="btn-continue" id="btn-continue-era" onclick="continueToNextEra()">Enter Next Era →</button>
   </div>
 </div>
 
@@ -1399,6 +1399,8 @@ function initials(name){ return name.split(' ').map(w=>w[0]).join('').slice(0,2)
 let tutStep = 0;
 const TUT_STEPS = 4;
 
+let hasPlayed = false;
+
 function startGame(){
   // Reset state
   G.era=0; G.buyerIdx=0; G.profit=0; G.totalProfit=0;
@@ -1406,11 +1408,15 @@ function startGame(){
   G.walkaways=0; G.financeUsed=false;
   G.upgrades={detail:0,reports:0,reputation:0,provenance:0,finance:0};
   G.finalAccuracies=[];
-  // Always show tutorial first
+  // Skip tutorial on repeat plays
+  if(hasPlayed){
+    showEraTransition();
+    return;
+  }
+  hasPlayed = true;
   tutStep = 0;
   renderTutStep();
   showScreen('s-tutorial');
-  // Draw the demo car on step 1
   setTimeout(drawTutCar, 100);
 }
 
@@ -1539,7 +1545,7 @@ function loadBuyer(){
   G.currentBuyer = { name: buyerName, typeKey: buyerTypeKey };
 
   // Render header
-  document.getElementById('gh-era').textContent = `Era ${era.id} — ${era.name}`;
+  document.getElementById('gh-era').textContent = `${era.name} · ${era.years}`;
   updateHUD();
 
   // Render car
@@ -1754,8 +1760,10 @@ function updateHUD(){
 // ════════════════════════════════════════════════
 function showUpgrade(){
   const era = ERAS[G.era];
-  document.getElementById('upg-era-badge').textContent = 'End of Era ' + era.id + ' — ' + era.name;
-  document.getElementById('upg-subtitle').textContent = 'Era ' + (era.id+1) + ' buyers are savvier. Invest wisely.';
+  document.getElementById('upg-era-badge').textContent = 'End of — ' + era.name;
+  const nextEra = ERAS[G.era + 1];
+  document.getElementById('upg-subtitle').textContent = (nextEra ? nextEra.name : 'the road ahead') + ' buyers are savvier. Invest wisely.';
+  document.getElementById('btn-continue-era').textContent = nextEra ? `Enter ${nextEra.name} →` : 'Finish →';
   document.getElementById('upg-budget').textContent = fmtMoney(G.profit) + ' to invest';
   renderUpgrades();
   showScreen('s-upgrade');
@@ -1866,18 +1874,39 @@ function drawTutCar(){ /* no-op */ }
 //  SCORE + INITIALS + LEADERBOARD
 // ════════════════════════════════════════════════
 
-// ── IMPORTANT: Replace this URL after deploying your Apps Script ──
-// See setup instructions below the game code.
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyz9aSKEk0f3QNFIsFUXlJuIqcU8WYOVr9Er-AYk0rwcoIVnDnVjwt17Hm30-nmCUQuIw/exec';
 
-// Score stored in G.finalScore (set in showFinal)
 if(!G.finalScore) G.finalScore = 0;
 
-// Initials state
-let iniLetters  = ['_','_','_'];
-let iniCursor   = 0;
+let iniLetters = ['_','_','_'];
+let iniCursor  = 0;
 
-function goToInitials(){
+// Called from final screen "Enter Score" button
+async function goToInitials(){
+  // Fetch current leaderboard to check if score qualifies
+  let qualifies = true; // optimistic default if fetch fails
+  try {
+    const res    = await fetch(SCRIPT_URL + '?action=get');
+    const scores = await res.json();
+    scores.sort((a,b) => b.score - a.score);
+    const top10  = scores.slice(0, 10);
+    // Qualifies if fewer than 10 scores exist, or beats the lowest top-10 score
+    qualifies = top10.length < 10 || G.finalScore > Number(top10[top10.length - 1].score);
+  } catch(e) {
+    qualifies = true; // can't reach server — let them enter anyway
+  }
+
+  if(!qualifies){
+    // Doesn't make top 10 — go straight to leaderboard
+    showScreen('s-leaderboard');
+    loadLeaderboard(null, G.finalScore);
+    document.getElementById('lb-your-score').textContent =
+      `Your score: ${G.finalScore.toLocaleString()} pts — not in the top 10 yet`;
+    document.getElementById('lb-your-score').style.color = '#555';
+    return;
+  }
+
+  // Made the top 10 — show arcade initials entry
   iniLetters = ['_','_','_'];
   iniCursor  = 0;
   document.getElementById('ini-score-val').textContent = G.finalScore.toLocaleString();
@@ -1987,7 +2016,7 @@ function renderLeaderboard(scores, yourName){
     return;
   }
 
-  // Sort descending
+  // Sort descending, show top 10 only
   scores.sort((a,b) => b.score - a.score);
   const top = scores.slice(0, 10);
 
@@ -1998,7 +2027,7 @@ function renderLeaderboard(scores, yourName){
     const rank = i < 3
       ? `<span class="lb-rank ${rankClass[i]}">${rankLabels[i]}</span>`
       : `<span class="lb-rank">${i+1}</span>`;
-    const isYou = s.name === yourName;
+    const isYou = yourName && s.name === yourName;
     return `
       <div class="lb-row">
         ${rank}
